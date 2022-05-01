@@ -1,0 +1,148 @@
+TODOs:
+
+2022-02-21:
+!!!! !!!!! !!!!! Switching back and forth the Active window 25-31x it will crash
+
+2022-01-13:
+X Implement 1bit (2 colors) and 8bit (256 colors) functions in the VGA driver
+X Check and implement if 320x240x256 (ModeX) is doable (planar drawing functions)
+X BugCheck screen (extra params/messages/values could be pushed to be displayed - good for debugging also)
+X Add extra param for extra detail (text + value)
+X Create SetFlag/ClearFlag/TestFlag on top of SetFlags/GetFlags
+  FlagOn, FlagOff maybe. TestFlag could be HasFlag. SetFlags/GetFlags could be SetFlagValue/GetFlagValue.
+X strncpy should really copy n-1 number of chars and put an ending zero there!
+
+- Implement VirtualKeyToAscii(), ScanCodeToAscii() and GetKey/boardState() functions (where ToAscii would user the keyboard state and the vkey to determine ascii)
+- Finish Key and VKey codes
+
+- CheckIfPointInRectangle -> IsPointInRectangle
+
+- Checkbox, Radiobutton and Scrollbar controls should be drawn by drawing base + glyph with a given colors (so the base and the glyph is reuseable)
+- Window params should be renamed to leftParam, rightParam
+
+! WHEN ENABLING BUGCHECK FOR NULL HANDLES IN ISVALID FUNCTION IT STRAIGHT AWAY DIES WITH BLANK SCREEN
+    Could go thru every IsValid and try putting the bugcheck there instead to find which one causes it
+    Could create a log (in memory) that could be read
+
+! WHY DID IT BECOME SO SLOW!?
+    Maybe attribute packed that i added to something (memory descriptor maybe) (maybe not, because I tried removing it)
+    Or something now became recursive / calling a lot?
+    UHH UiDrawText (I disabled it and now it's speedy again!)
+
+! EGY STATIC CUCCOT NEM LEHET MEGVALTOZTATNI???
+    Tehat ha valami static akkor atallithatom, de nem fogja megcsinalni?
+    NAGYON UGY NEZ KI!!!
+    "Static variables can get reassigned. But can't be redefined. Once a static variable defined it can't get redefined throughout the life time of program."
+
+! Why are static variables used in C?
+! Following are the uses of a static variable:
+! A variable which is declared as static is known as a static variable. The static variable retains its value between multiple function calls.
+! Static variables are used because the scope of the static variable is available in the entire program. So, we can access a static variable anywhere in the program.
+! The static variable is initially initialized to zero. If we update the value of a variable, then the updated value is assigned.
+! The static variable is used as a common value which is shared by all the methods.
+! The static variable is initialized only once in the memory heap to reduce the memory usage.
+
+! TEHAT static-eld a stringeket, de mast ne!
+
+!!! AMIT CSINALNI KENE: fix BugCheck properly, es utana fix everything one-by-one ugy, hogy a bugcheck aktiv mindenhol. Tehat enable only WelcomeWindow -> teszt...
+
+!!!!! Valahogy egy variable watcher window-t osszerakni.
+      Lehetne csak annyi, hogy variable length formatt-tal hozzaadnak egy window-hoz VariableName-Value parokat es megjelenitene es minden "korben" kirajzolna az ertekuket (vagy refresh gombra)
+      Nem tudom mennyi erteke lenne a dolognak. De pl csak globalis valtozokra mukodne, nem mukodne stack-ben levoekre -> because of obvious reasons
+
+- Implement Window Walker where windows and relationships can be seen and investigated
+- Implement System Information window where OS name, version, cpu, free resources, available free memory and other kernel functions can show their output
+- Implement Memory Information window where different allocations can be tracked
+- Create other controls (TextBox, CheckBox, RadioButton, ListBox/View, IconView, ScrollBar, ComboBox)
+- Move Palette stuff out of GiMan (also Line/Rectange/FilledRectangle/Mouse code to their respected files)
+- Maybe static needs to be added to every global variable
+- Window procedures should be able to return UINT32
+- Fix that we can create a window for non-registered classes and add childwindows to it (the child window will show)
+- Create CharMap
+
+
+Older TODOs:
+- Megmodositani az DirectoryObject-et, hogy legyen benne egy ObjectName
+- A device es a driver name kulonbozik az object name-tol
+- FileOpen-t csak ObjectName-en lehet vegrehajtani
+- Object-eken amiknek nincs neve nem lehet FileOpen-t vegrehajtani
+- Only some types of objects can have child objects (like: DiskDevice\Directory\File, vagy DiskVolume\Directory\File)
+- ObjectType in object please, not in Device/driver
+- Have link back to Object in device/driver
+
+- Lehet le kene egyszerusiteni a DRIVER_FUNCTION-oket
+  Picit lassabb lenne, de ha minden IOCTL call-okbol allna, meg a READ/WRITE is.
+  Ekkor nem kene function tablat-t hasznalni igazibol, mert minden DEVICE_CONTROL lenne
+
+- Az ObjectStore/Directory-t lehet nem kene szetosztani ObjectDirectoryEntry-re es ActualObject-re
+  A lookup sokkal egyszerubb lenne, ha minden object tartalmazna pNextObject, pPrevObject, ObjectType es ObjectName fieldeket (ez kulonbozne a DeviceName es a DriverName-tol)
+
+- Az IoRequestPacket-et a requestor is ki tudna tolteni, nem kene at-funneling-elni mindent 
+  Ekkor a caller lathana az IoStatus kodot ami visszajon a driverbol.
+  Az egyetlen problema, hogy a caller-nek minden infot bele kene raknia az IRP packetbe, vagy az IoManagager toltene ki teljesen.
+
+- Could use Namespaces (they are used to prevent name collisions)
+  C-ben nincs namespace. C++-ban van. A legegyszerubb, hogy olyan variable es function neveink legyenek, mint pl VGADriver_Method
+
+- Mivel nincsenek namespace-ek C alatt, ezert csinalhatnank valami hasonlot mint Windows-ban:
+  Ket betu lehetne a "module" neve es utana a function neve. Lenne egy user facing wrapper majd ezek korul, hogy ne keljen a module nevvel egyutt hivni.
+  Ameddig a modulok function-jei nem collide-olnak, addig nem kell igazibol.
+  Modulok: MmMemoryFree(), DbDebugPring(), PcCallBios(), IoCallDriver(), RmDeviceIoControl(), RmFileOpen(), GiCreateWindow(), GiDrawRectangle()
+  A driverek kicsit komplikaltabbak, de lehetne:
+  VgaDriverInit(), VbeDriverInit(), PicDriverInit(), VgaSetVideoMode(), VbeSetVideoMode()
+
+  Valtozok, Handle-ok, Pointerek:
+  GiSupportedVideoModesCount, hGiPrimaryVideoAdapter, pGiFrameBuffer, vagy
+  GI_SupportedVideoModesCount, GI_hPrimaryVideoAdapter, GI_pFrameBuffer
+
+  Valszeg ezt ki akarjuk terjeszteni a define-okra is?
+  MM_MEMORY_FLAG_ZERO_INIT
+
+  Inkabb csak drivereknel:
+  VGA_NUMBER_OF_VIDEO_MODES, VBE_NUMBER_OF_VIDEO_MODES etc.
+
+1. )A MachineInit-et, a PcInit-et vedeni egy Bool-lal, vagy egy Uint8/32-val, hogy ne call-oljon 0 address-t.
+    Kiirni valami uzit ha ez tortent
+2.) Kitolteni az IRQ description-oket, hogy melyik micsoda
+3.) A TRACE-et es a DebugPrintF-et megfixalni, hogy ne a bios rutint hasznalja kiiratashoz
+    (Amint remappeljuk az IRQ-kat szetszakad ha TRACE-t hivunk. Valoszinuleg a BIOS visszakapcsolja az interrupt-okat.)
+    (Ami meg megoldas lehet, hogy maszkoljuk az interruptokat, de ez abban az esetben nem jo, ha a bios-nak kell dealelnie vmilyen hardware-rel)
+
+4.) Move every TODO stuff here, so it does not poison the code
+5.) Every header should be guarded by include guards
+
+6.) Have a machine specific header that will be included first "pcmachine.h" or something
+7.) "pcxxxx" stuff should be renamed to "x86-32-pc-xxxxx"
+8.) Modify UI (miniui and tui), so it actually goes into graphical mode
+    UI should be initialized first in text base ui, debug should call stuff from there
+    As soon as possible UI should be switched to graphical mode (either 320x200x256 or 640x480x16 or VESA).
+    The debug write/draw text functions should be relocated after.
+    Or Debug just should implement those functions itself (write to text base ui via the bios or write to serial port).
+    In the real graphical UI debug won't draw anything, just on the console.
+
+
+
+//TODO:
+// - FIX X86 REGISTERS TO USE SEGMENT REGISTERS TOO USED FOR CALLBIOSINTERRUPT...
+// - Implement a memory manager (it could allocate stuff at specific addresses from its heap 
+// - Implement the Loader Object Manager that the drivers can use to register resource usage.
+// - Implement "fake" storage and keyboard (video, mouse?) drivers. They would call a BIOS function to handle these things. 
+// - Implement "fake" HAL for Loader. This mini version of "Hal" will be replaced by the real version that the kernel uses.
+//   Most of the "fake" HAL functions will be recycled there.
+//   Should it be able to handle real interrupts. Should it enable interrupt handling (System Clock???)
+//   For the first half of boot (Loader) we cannot use DMA if we don't for example.
+// - Separate Ui print functions from Debug print
+// - Separate diffent levels in Debug (warning, error, trace)
+// - Do box, frame, status bar, progress bar functions
+// - Have simple ui functions for text, vga, vesa
+// - Have most functions architecture independable (with plug-ins for different hardware) 
+// - Remove 0x from hex print???
+// - Get rid of magic numbers (use constants and defines instead)
+//   Use Status Codes (ARC_STATUS etc.). KLOADER_STATUS status = KLOADER_STATUS_SUCCESS
+
+//TODESIGN:
+//- In essence if we were to load a driver to handle scsi for example, then the driver could have a table
+//  where it stores the OS Function Call addresses. The Loader here could patch the right addresses.
+//  The driver will call these addresses when it is doing a function call. This way the drivers don't need to
+//  be updated to be able to use them as Loader Boot drivers.
+

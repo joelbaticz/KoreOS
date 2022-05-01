@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/!PROGRAMMING/KOREOS/src/include/asminc.S
+
+C:/!PROGRAMMING/KOREOS/src/mach/x86-32-pc/def.S
+
+C:/!PROGRAMMING/KOREOS/src/mach/x86-32-pc/entry/entry.S
+../include/asminc.S
+C:/!PROGRAMMING/KOREOS/src/mach/x86-32-pc/include/asminc.S
+../mach/x86-32-pc/def.S
+C:/!PROGRAMMING/KOREOS/src/mach/x86-32-pc/mach/x86-32-pc/def.S
+../mach/x86-32-pc/entry/entry_realmode_routines.S
+C:/!PROGRAMMING/KOREOS/src/mach/x86-32-pc/mach/x86-32-pc/entry/entry_realmode_routines.S
+
+C:/!PROGRAMMING/KOREOS/src/mach/x86-32-pc/entry/entry_realmode_routines.S
+

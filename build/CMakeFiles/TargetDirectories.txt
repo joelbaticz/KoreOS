@@ -1,0 +1,8 @@
+C:/!PROGRAMMING/KOREOS/build/CMakeFiles/TARGET1.dir
+C:/!PROGRAMMING/KOREOS/build/CMakeFiles/entry.dir
+C:/!PROGRAMMING/KOREOS/build/CMakeFiles/TARGET2.dir
+C:/!PROGRAMMING/KOREOS/build/CMakeFiles/loader.dir
+C:/!PROGRAMMING/KOREOS/build/CMakeFiles/TARGET3.dir
+C:/!PROGRAMMING/KOREOS/build/CMakeFiles/TARGET4.dir
+C:/!PROGRAMMING/KOREOS/build/CMakeFiles/edit_cache.dir
+C:/!PROGRAMMING/KOREOS/build/CMakeFiles/rebuild_cache.dir

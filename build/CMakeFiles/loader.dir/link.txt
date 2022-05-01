@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\loader.dir/objects.a
+C:\MinGW\bin\ar.exe qc CMakeFiles\loader.dir/objects.a @CMakeFiles\loader.dir\objects1.rsp
+C:\MinGW\bin\gcc.exe -masm=intel -ffreestanding --entry=_KLoaderMain -nostdlib -T../src/link.ld -Wl,--whole-archive CMakeFiles\loader.dir/objects.a -Wl,--no-whole-archive -o loader.exe -Wl,--out-implib,libloader.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\loader.dir\linklibs.rsp
